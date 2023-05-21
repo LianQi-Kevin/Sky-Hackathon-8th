@@ -9,14 +9,9 @@ look_at_position = (-212, 78, 57)
 
 # setup working layer
 with rep.new_layer():
-    sphere_light = rep.create.light(
-        light_type="Sphere",
-        temperature=rep.distribution.normal(6500, 500),
-        intensity=rep.distribution.normal(35000, 5000),
-        position=rep.distribution.uniform((-300, -300, -300), (300, 300, 300)),
-        scale=rep.distribution.uniform(50, 100),
-        count=2
-    )
+    # 无头模式下场景无默认光源，添加额外光源(参照默认环境光设置)
+    rep.create.light(light_type="Distant", temperature=6500, intensity=3000,
+                     rotation=(315, 0, 0), scale=1, name="DefaultLight")
 
     # define 3d models: usd format file source link, class, initial position
     WORKSHOP = 'http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd'
