@@ -1,2 +1,6 @@
 .idea
-BACKEND/omni
+.vscode
+__pycache__
+.ipynb_checkpoints
+_output
+*test.py
