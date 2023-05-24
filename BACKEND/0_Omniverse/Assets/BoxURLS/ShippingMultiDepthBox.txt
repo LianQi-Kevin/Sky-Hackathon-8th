@@ -1,0 +1,12 @@
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A01_20x20x21cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A02_20x25x20cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A03_25x25x31cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A04_15x31x16cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A05_31x31x31cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A06_20x36x15cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A07_36x36x16cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A08_36x41x16cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A09_41x41x42cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A10_31x46x31cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A11_46x46x31cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Multi-Depth_A/MultiDepthBox_A12_36x51x36xcm_PR_NVD_01.usd

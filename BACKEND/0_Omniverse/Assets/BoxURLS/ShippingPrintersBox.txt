@@ -1,0 +1,10 @@
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A01_28x44x25cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A02_21x28x10cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A03_23x28x12cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A04_22x28x20cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A05_23x28x25cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A06_23x31x5cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A07_23x31x15cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A08_22x31x22cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A09_23x30x14cm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Printer_A/PrintersBox_A10_28x44x15cm_PR_NVD_01.usd

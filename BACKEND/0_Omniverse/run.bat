@@ -1,1 +1,1 @@
-E:/NVIDIA-OMNIVERSE/pkgs/code-2022.3.3/omni.code.bat --no-window --/omni/replicator/script=E:\Python\Sky-Hackathon-8th\BACKEND\0_Omniverse\Factory_conveyor_belt.py
+E:/NVIDIA-OMNIVERSE/pkgs/code-2022.3.3/omni.code.bat --no-window --/omni/replicator/script=E:\Python\Sky-Hackathon-8th\BACKEND\0_Omniverse\FactoryScene1.py
