@@ -10,18 +10,22 @@ import omni.replicator.core as rep
 import os
 import glob
 import random
+from typing import List, Tuple
 
 
-def get_num_URLS(num=4, filename_path=os.path.join("Assets/BoxURLS", "*.txt")):
+def get_num_URLS(num=4, filename_path=os.path.join("Assets/BoxURLS", "*.txt"),
+                 semantics: List[Tuple[str, str]] = None) -> List[rep.create.ReplicatorItem]:
+    if semantics is None:
+        semantics = [('class', 'box')]
     urls = []
     for url_path in glob.glob(filename_path):
         with open(url_path, "r") as url_f:
             urls += [i[:-2] if i.endswith('\n') else i for i in url_f.readlines()]
-    return random.sample(urls, num)
+    models = []
+    for url in random.sample(urls, num):
+        models.append(rep.create.from_usd(url, semantics=semantics))
+    return models
 
-
-# all box models URL
-CARTON_URLS = get_num_URLS(num=4)
 
 # setup random view range for camera: low point, high point
 sequential_pos = [(-800, 220, -271), (800, 220, 500)]
@@ -56,16 +60,9 @@ with rep.new_layer():
             rotation=(-90, 90, 0)
         )
 
-    # todo:替换为URL提取函数
-    BOX1 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_A3.usd'
-    BOX2 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_B3.usd'
-    BOX3 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_C3.usd'
-    BOX4 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_D3.usd'
-
-    box1 = rep.create.from_usd(BOX1, semantics=[('class', 'box')])
-    box2 = rep.create.from_usd(BOX2, semantics=[('class', 'box')])
-    box3 = rep.create.from_usd(BOX3, semantics=[('class', 'box')])
-    box4 = rep.create.from_usd(BOX4, semantics=[('class', 'box')])
+    # boxs
+    CARTON_URLS = get_num_URLS(num=4, semantics=[('class', 'box')])
+    box1, box2, box3, box4 = CARTON_URLS[0], CARTON_URLS[1], CARTON_URLS[2], CARTON_URLS[3]
 
     with box1:
         rep.modify.pose(
@@ -99,12 +96,11 @@ with rep.new_layer():
             count=num
         )
         return lights.node
-
     rep.randomizer.register(sphere_lights)
 
     # define function to create random position range for target
     def get_shapes():
-        # 选定所有("class", "box")的对象
+        # 选定所有键值对为("class", "box")的对象
         shapes = rep.get.prims(semantics=[('class', 'box')])
         # 针对选定的所有对象批量配置
         with shapes:
@@ -112,7 +108,6 @@ with rep.new_layer():
                 position=rep.distribution.uniform((0, -50, 0), (0, 50, 0)),
             )
         return shapes.node
-
     rep.randomizer.register(get_shapes)
 
     # 创建相机并配置渲染
