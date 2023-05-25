@@ -8,23 +8,20 @@
 
 import omni.replicator.core as rep
 import os
+import glob
+import random
+
+
+def get_num_URLS(num=4, filename_path=os.path.join("Assets/BoxURLS", "*.txt")):
+    urls = []
+    for url_path in glob.glob(filename_path):
+        with open(url_path, "r") as url_f:
+            urls += [i[:-2] if i.endswith('\n') else i for i in url_f.readlines()]
+    return random.sample(urls, num)
+
 
 # all box models URL
-# todo:从"Assets/BoxURLS"中读取可用URL
-CARTON_URLS = [
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_A1.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_A2.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_A3.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_B1.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_B2.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_B3.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_C1.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_C2.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_C3.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_D1.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_D2.usd",
-    "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Containers/Cardboard/Cardbox_D3.usd",
-]
+CARTON_URLS = get_num_URLS(num=4)
 
 # setup random view range for camera: low point, high point
 sequential_pos = [(-800, 220, -271), (800, 220, 500)]
