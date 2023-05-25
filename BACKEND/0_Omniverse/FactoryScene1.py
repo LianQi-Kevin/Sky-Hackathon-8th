@@ -7,23 +7,36 @@
 """
 
 import omni.replicator.core as rep
+from omni.replicator.core.scripts.utils import ReplicatorItem
 import os
 import glob
 import random
 from typing import List, Tuple
 
 
-def get_num_URLS(num=4, filename_path=os.path.join("Assets/BoxURLS", "*.txt"),
-                 semantics: List[Tuple[str, str]] = None) -> List[rep.create.ReplicatorItem]:
-    if semantics is None:
-        semantics = [('class', 'box')]
+def get_num_box_node(item_num: int = 4, distribution_area: List[Tuple[tuple, tuple]] = None,
+                     filename_path: str = os.path.join("Assets/BoxURLS", "*.txt"),
+                     semantics: List[Tuple[str, str]] = None) -> List[ReplicatorItem]:
+    """
+    向 distribution_area 中添加 item_num 个物品, 并批量初始化其 rotation 和 semantics
+    :param semantics: object semantics
+    :param item_num: object nums
+    :param filename_path: object urls file path
+    :param distribution_area: 二维平面的两角点
+    """
     urls = []
     for url_path in glob.glob(filename_path):
         with open(url_path, "r") as url_f:
-            urls += [i[:-2] if i.endswith('\n') else i for i in url_f.readlines()]
+            urls += [i[:-1] if i.endswith('\n') else i for i in url_f.readlines()]
     models = []
-    for url in random.sample(urls, num):
-        models.append(rep.create.from_usd(url, semantics=semantics))
+    for url in random.sample(urls, item_num):
+        box = rep.create.from_usd(url, semantics=[('class', 'box')] if semantics is None else semantics)
+        # with box:
+        #     rep.modify.pose(
+        #         position=rep.distribution.uniform(lower=(), upper=()),
+        #         rotation=(0, -90, -90)
+        #     )
+        models.append(box)
     return models
 
 
@@ -39,11 +52,19 @@ with rep.new_layer():
     # 无头模式下场景无默认光源，添加额外光源(参照默认环境光设置)
     rep.create.light(light_type="Distant", temperature=6500, intensity=3000,
                      rotation=(315, 0, 0), scale=1, name="DefaultLight")
+
     WORKSHOP = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd'
-    CONVEYOR = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A23_PR_NVD_01.usd'
+    ConveyorBelt_A23 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A23_PR_NVD_01.usd'
+    ConveyorBelt_A37 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A37_PR_NVD_01.usd"
+    ConveyorBelt_A07 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A07_PR_NVD_01.usd"
     workshop = rep.create.from_usd(WORKSHOP)
-    conveyor1 = rep.create.from_usd(CONVEYOR)
-    conveyor2 = rep.create.from_usd(CONVEYOR)
+    conveyor1 = rep.create.from_usd(ConveyorBelt_A23)
+    conveyor2 = rep.create.from_usd(ConveyorBelt_A23)
+    conveyor3 = rep.create.from_usd(ConveyorBelt_A37, semantics=[('class', 'AdditionalStructure')])
+    conveyor4 = rep.create.from_usd(ConveyorBelt_A37, semantics=[('class', 'AdditionalStructure')])
+    conveyor5 = rep.create.from_usd(ConveyorBelt_A07, semantics=[('class', 'AdditionalStructure')])
+    conveyor6 = rep.create.from_usd(ConveyorBelt_A07, semantics=[('class', 'AdditionalStructure')])
+
     with workshop:
         rep.modify.pose(
             position=(0, 0, 0),
@@ -59,9 +80,29 @@ with rep.new_layer():
             position=(-40, 0, 100),
             rotation=(-90, 90, 0)
         )
+    with conveyor3:
+        rep.modify.pose(
+            position=(118, 0, -586),
+            rotation=(-90, 0, 0)
+        )
+    with conveyor4:
+        rep.modify.pose(
+            position=(-198, 0, 685),
+            rotation=(-90, 180, 0)
+        )
+    with conveyor5:
+        rep.modify.pose(
+            position=(-198, 0, 1085),
+            rotation=(-90, 180, 0)
+        )
+    with conveyor6:
+        rep.modify.pose(
+            position=(118, 0, -985),
+            rotation=(-90, 0, 0)
+        )
 
     # boxs
-    CARTON_URLS = get_num_URLS(num=4, semantics=[('class', 'box')])
+    CARTON_URLS = get_num_box_node(item_num=4, semantics=[('class', 'box')])
     box1, box2, box3, box4 = CARTON_URLS[0], CARTON_URLS[1], CARTON_URLS[2], CARTON_URLS[3]
 
     with box1:
@@ -106,6 +147,7 @@ with rep.new_layer():
         with shapes:
             rep.modify.pose(
                 position=rep.distribution.uniform((0, -50, 0), (0, 50, 0)),
+                scale=rep.distribution.uniform(0.7, 1.5)
             )
         return shapes.node
     rep.randomizer.register(get_shapes)
