@@ -1,6 +1,7 @@
-from PIL import Image, ImageDraw
-import os
 import glob
+import os
+
+from PIL import Image, ImageDraw
 from tqdm import tqdm
 
 

@@ -53,13 +53,13 @@ with rep.new_layer():
     rep.create.light(light_type="Distant", temperature=6500, intensity=3000,
                      rotation=(315, 0, 0), scale=1, name="DefaultLight")
 
-    WORKSHOP = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd'
+    # WORKSHOP = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd'
     CONVEYORBELT_A23 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A23_PR_NVD_01.usd'
     CONVEYORBELT_A37 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A37_PR_NVD_01.usd"
     CONVEYORBELT_A07 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A07_PR_NVD_01.usd"
     RACKLONG_A4 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A4.usd"
     RACKLONG_A2 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A2.usd"
-    workshop = rep.create.from_usd(WORKSHOP)
+    # workshop = rep.create.from_usd(WORKSHOP)
     conveyor1 = rep.create.from_usd(CONVEYORBELT_A23)
     conveyor2 = rep.create.from_usd(CONVEYORBELT_A23)
     conveyor3 = rep.create.from_usd(CONVEYORBELT_A37)
@@ -71,11 +71,11 @@ with rep.new_layer():
     racklong3 = rep.create.from_usd(RACKLONG_A2)
     racklong4 = rep.create.from_usd(RACKLONG_A2)
 
-    with workshop:
-        rep.modify.pose(
-            position=(0, 0, 0),
-            rotation=(0, -90, -90)
-        )
+    # with workshop:
+    #     rep.modify.pose(
+    #         position=(0, 0, 0),
+    #         rotation=(0, -90, -90)
+    #     )
     with conveyor1:
         rep.modify.pose(
             position=(-40, 0, 0),
@@ -128,7 +128,7 @@ with rep.new_layer():
         )
 
     # boxs
-    CARTON_URLS = get_num_box_node(item_num=4, semantics=[('class', 'box')])
+    CARTON_URLS = get_num_box_node(item_num=4, semantics=[('class', 'box')], filename_path=os.path.join("E:/Python/Sky-Hackathon-8th/BACKEND/0_Omniverse/Assets/BoxURLS", "*.txt"))
     box1, box2, box3, box4 = CARTON_URLS[0], CARTON_URLS[1], CARTON_URLS[2], CARTON_URLS[3]
 
     with box1:
@@ -173,7 +173,8 @@ with rep.new_layer():
         with shapes:
             rep.modify.pose(
                 position=rep.distribution.uniform((0, -50, 0), (0, 50, 0)),
-                scale=rep.distribution.uniform(0.7, 1.5)
+                scale=rep.distribution.uniform(0.7, 1.2),
+                rotation=rep.distribution.uniform((0, 0, -180), (0, 0, 180))
             )
         return shapes.node
     rep.randomizer.register(get_shapes)
@@ -182,7 +183,7 @@ with rep.new_layer():
     camera = rep.create.camera(position=sequential_pos[0], look_at=look_at_position[0])
     render_product = rep.create.render_product(camera, resolution=(1024, 1024))
 
-    with rep.trigger.on_frame(num_frames=50):  # number of picture
+    with rep.trigger.on_frame(num_frames=300):  # number of picture
         rep.randomizer.sphere_lights(4)  # number of lighting source
         rep.randomizer.get_shapes()
         with camera:
