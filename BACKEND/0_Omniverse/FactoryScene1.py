@@ -54,16 +54,22 @@ with rep.new_layer():
                      rotation=(315, 0, 0), scale=1, name="DefaultLight")
 
     WORKSHOP = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd'
-    ConveyorBelt_A23 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A23_PR_NVD_01.usd'
-    ConveyorBelt_A37 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A37_PR_NVD_01.usd"
-    ConveyorBelt_A07 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A07_PR_NVD_01.usd"
+    CONVEYORBELT_A23 = 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A23_PR_NVD_01.usd'
+    CONVEYORBELT_A37 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A37_PR_NVD_01.usd"
+    CONVEYORBELT_A07 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Equipment/Conveyors/ConveyorBelt_A/ConveyorBelt_A07_PR_NVD_01.usd"
+    RACKLONG_A4 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A4.usd"
+    RACKLONG_A2 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A2.usd"
     workshop = rep.create.from_usd(WORKSHOP)
-    conveyor1 = rep.create.from_usd(ConveyorBelt_A23)
-    conveyor2 = rep.create.from_usd(ConveyorBelt_A23)
-    conveyor3 = rep.create.from_usd(ConveyorBelt_A37, semantics=[('class', 'AdditionalStructure')])
-    conveyor4 = rep.create.from_usd(ConveyorBelt_A37, semantics=[('class', 'AdditionalStructure')])
-    conveyor5 = rep.create.from_usd(ConveyorBelt_A07, semantics=[('class', 'AdditionalStructure')])
-    conveyor6 = rep.create.from_usd(ConveyorBelt_A07, semantics=[('class', 'AdditionalStructure')])
+    conveyor1 = rep.create.from_usd(CONVEYORBELT_A23, semantics=[('class', 'conveyor')])
+    conveyor2 = rep.create.from_usd(CONVEYORBELT_A23, semantics=[('class', 'conveyor')])
+    conveyor3 = rep.create.from_usd(CONVEYORBELT_A37, semantics=[('class', 'conveyor')])
+    conveyor4 = rep.create.from_usd(CONVEYORBELT_A37, semantics=[('class', 'conveyor')])
+    conveyor5 = rep.create.from_usd(CONVEYORBELT_A07, semantics=[('class', 'conveyor')])
+    conveyor6 = rep.create.from_usd(CONVEYORBELT_A07, semantics=[('class', 'conveyor')])
+    racklong1 = rep.create.from_usd(RACKLONG_A4, semantics=[('class', 'racklong')])
+    racklong2 = rep.create.from_usd(RACKLONG_A4, semantics=[('class', 'racklong')])
+    racklong3 = rep.create.from_usd(RACKLONG_A2, semantics=[('class', 'racklong')])
+    racklong4 = rep.create.from_usd(RACKLONG_A2, semantics=[('class', 'racklong')])
 
     with workshop:
         rep.modify.pose(
@@ -98,6 +104,26 @@ with rep.new_layer():
     with conveyor6:
         rep.modify.pose(
             position=(118, 0, -985),
+            rotation=(-90, 0, 0)
+        )
+    with racklong1:
+        rep.modify.pose(
+            position=(40, 0, -780),
+            rotation=(-90, 0, 0)
+        )
+    with racklong2:
+        rep.modify.pose(
+            position=(300, 0, -780),
+            rotation=(-90, -180, 0)
+        )
+    with racklong3:
+        rep.modify.pose(
+            position=(-380, 0, 880),
+            rotation=(-90, -180, 0)
+        )
+    with racklong4:
+        rep.modify.pose(
+            position=(-110, 0, 880),
             rotation=(-90, 0, 0)
         )
 
