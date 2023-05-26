@@ -60,16 +60,16 @@ with rep.new_layer():
     RACKLONG_A4 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A4.usd"
     RACKLONG_A2 = "https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/ArchVis/Industrial/Racks/RackLong_A2.usd"
     workshop = rep.create.from_usd(WORKSHOP)
-    conveyor1 = rep.create.from_usd(CONVEYORBELT_A23, semantics=[('class', 'conveyor')])
-    conveyor2 = rep.create.from_usd(CONVEYORBELT_A23, semantics=[('class', 'conveyor')])
-    conveyor3 = rep.create.from_usd(CONVEYORBELT_A37, semantics=[('class', 'conveyor')])
-    conveyor4 = rep.create.from_usd(CONVEYORBELT_A37, semantics=[('class', 'conveyor')])
-    conveyor5 = rep.create.from_usd(CONVEYORBELT_A07, semantics=[('class', 'conveyor')])
-    conveyor6 = rep.create.from_usd(CONVEYORBELT_A07, semantics=[('class', 'conveyor')])
-    racklong1 = rep.create.from_usd(RACKLONG_A4, semantics=[('class', 'racklong')])
-    racklong2 = rep.create.from_usd(RACKLONG_A4, semantics=[('class', 'racklong')])
-    racklong3 = rep.create.from_usd(RACKLONG_A2, semantics=[('class', 'racklong')])
-    racklong4 = rep.create.from_usd(RACKLONG_A2, semantics=[('class', 'racklong')])
+    conveyor1 = rep.create.from_usd(CONVEYORBELT_A23)
+    conveyor2 = rep.create.from_usd(CONVEYORBELT_A23)
+    conveyor3 = rep.create.from_usd(CONVEYORBELT_A37)
+    conveyor4 = rep.create.from_usd(CONVEYORBELT_A37)
+    conveyor5 = rep.create.from_usd(CONVEYORBELT_A07)
+    conveyor6 = rep.create.from_usd(CONVEYORBELT_A07)
+    racklong1 = rep.create.from_usd(RACKLONG_A4)
+    racklong2 = rep.create.from_usd(RACKLONG_A4)
+    racklong3 = rep.create.from_usd(RACKLONG_A2)
+    racklong4 = rep.create.from_usd(RACKLONG_A2)
 
     with workshop:
         rep.modify.pose(
