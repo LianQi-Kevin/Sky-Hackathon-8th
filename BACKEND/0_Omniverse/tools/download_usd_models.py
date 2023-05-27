@@ -1,3 +1,12 @@
+"""
+该方法用来读取 url 列表文件并使用 requests 库下载文件
+
+* 由于 omniverse assets 的 .usd 模型和其材质是分开存储的，故无法直接下载嵌入材质的模型，暂时舍弃该方法 \
+* 暂时采用在 Omniverse Code 中将需要的模型从素材库拖入场景并逐个手动保存来实现材质嵌入 .usd 文件
+
+require: pip install tqdm requests
+"""
+
 import glob
 import os
 from typing import List, Union
@@ -34,6 +43,7 @@ def model_download(url_filename: Union[str, List[str]], output_path: str = "mode
     for filename in url_filename:
         with open(filename, 'r') as f:
             urls += [url[:-1] if url.endswith('\n') else url for url in f.readlines()]
+    print(f"Total {len(urls)} urls")
 
     # download models
     for url in urls:
