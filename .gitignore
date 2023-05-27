@@ -5,3 +5,7 @@ __pycache__
 _output
 *test.py
 *.usd
+*.usda
+*.usdc
+*.usda
+*.usdc
