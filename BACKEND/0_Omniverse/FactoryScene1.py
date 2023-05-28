@@ -261,13 +261,12 @@ with rep.new_layer():
     rep.randomizer.register(sphere_lights)
 
     # 创建相机并配置渲染
-    camera = rep.create.camera(position=(0, 300, 0), look_at=(0, 78, 50))
+    camera = rep.create.camera(position=(-600, 200, -500), look_at=(-430, 78, -170))
     render_product = rep.create.render_product(camera, resolution=(1024, 1024))
 
     with rep.trigger.on_frame(num_frames=NUM_FRAMES, rt_subframes=3):  # number of picture
         # basic scenario
         rep.randomizer.sphere_lights(4)  # number of lighting source
-        rep.randomizer.box_randomize()
         rep.randomizer.anora_randomize([(-160, 0, 210), (300, 0, 315)], [(-90, -180, 0), (-90, 180, 0)], 3)
         rep.randomizer.anora_randomize([(-410, 0, -190), (60, 0, -110)], [(-90, -180, 0), (-90, 180, 0)], 3)
         rep.randomizer.ladder_randomize([(-515, 0, 730), (-515, 0, 1030)], (0, -90, -90))
