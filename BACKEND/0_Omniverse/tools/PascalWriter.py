@@ -1,3 +1,11 @@
+"""
+Custom Writer for PASCAL VOC
+
+Reference:
+* https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_replicator/custom_writer.html
+* https://arleyzhang.github.io/articles/1dc20586/
+"""
+
 import omni.kit
 import omni.usd
 import omni.replicator.core as rep
