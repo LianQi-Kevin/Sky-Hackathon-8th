@@ -41,7 +41,7 @@ nc: 1
 
 ```shell
 mkdir -p workspace/dataset
-wget -P workdpace/dataset/data.zip <Roboflow download Raw URL>
+wget -O workdpace/dataset/data.zip <Roboflow download Raw URL>
 ```
 
 * `<Roboflow download Raw URL>`: roboflow数据集下载地址
