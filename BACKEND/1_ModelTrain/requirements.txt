@@ -1,0 +1,14 @@
+matplotlib>=3.2.2
+numpy>=1.18.5
+opencv-python>=4.1.1
+Pillow>=7.1.2
+PyYAML>=5.3.1
+requests>=2.23.0
+scipy>=1.4.1
+thop>=0.1.1
+tqdm>=4.63.0
+tensorboard>=2.4.1
+pandas>=1.1.4
+seaborn>=0.11.0
+onnx-simplifier>=0.4.1
+onnx>=1.9.0
