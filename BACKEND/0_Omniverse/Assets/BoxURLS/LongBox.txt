@@ -1,0 +1,12 @@
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A01_8x16x8xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A02_21x51x11xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A03_16x51x16xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A04_11x51x10xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A05_16x46x16xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A06_11x46x10xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A07_16x41x16xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A08_16x31x15xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A09_16x31x6xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A10_16x26x16xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A11_11x26x10xcm_PR_NVD_01.usd
+http://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/DigitalTwin/Assets/Warehouse/Shipping/Cardboard_Boxes/Long_A/LongBox_A12_11x21x10xcm_PR_NVD_01.usd
