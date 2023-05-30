@@ -77,7 +77,7 @@ class PascalWriter(Writer):
             if level and (not elem.tail or not elem.tail.strip()):
                 elem.tail = i
 
-    def _create_PASCAL_VOC(self, data: dict, format_: bool = True) -> ET.ElementTree:
+    def _create_PASCAL_VOC(self, data: dict, format_: bool = True, img_size: tuple = (512, 512, 3)) -> ET.ElementTree:
         # verify
         assert "filename" in data.keys(), f"Not found filename tag in {data}"
         assert "object" in data.keys(), f"Not found object tag in {data}"
@@ -89,9 +89,9 @@ class PascalWriter(Writer):
         root.append(self._create_element("segmented", data.get("segmented", 0)))
         # img size
         size = ET.Element("size")
-        size.append(self._create_element("width", data["size"].get("width", 512) if "size" in data.keys() else 512))
-        size.append(self._create_element("height", data["size"].get("height", 512) if "size" in data.keys() else 512))
-        size.append(self._create_element("depth", data["size"].get("depth", 512) if "size" in data.keys() else 3))
+        size.append(self._create_element("width", data["size"].get("width", img_size[0]) if "size" in data.keys() else img_size[0]))
+        size.append(self._create_element("height", data["size"].get("height", img_size[1]) if "size" in data.keys() else img_size[1]))
+        size.append(self._create_element("depth", data["size"].get("depth", img_size[3]) if "size" in data.keys() else img_size[2]))
         root.append(size)
         # object
         for object_ in data["object"]:

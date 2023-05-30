@@ -1,5 +1,4 @@
 import os
-import glob
 import xml.etree.ElementTree as ET
 
 
@@ -28,10 +27,8 @@ def __indent(elem, level=0):
             elem.tail = i
 
 
-def kitti_decode(filepath: str, imgpath: str = None, folder: str = "VOC2007", img_size: tuple = (512, 512, 3)) -> dict:
+def kitti_decode(filepath: str, img_suffix: str = ".jpg", folder: str = "VOC2007", img_size: tuple = (512, 512, 3)) -> dict:
     assert os.path.exists(filepath), f"{filepath} not exists"
-    # get img msg
-    img_suffix = ".jpg" if imgpath is None else os.path.splitext(os.path.basename(os.listdir(imgpath)[0]))[1]
     # get kitti bndboxs
     with open(filepath, "r", encoding="UTF-8") as f:
         bndboxs = [i[: -1].split(" ") if i.endswith("\n") else i.split(" ") for i in f.readlines()]
@@ -58,7 +55,7 @@ def kitti_decode(filepath: str, imgpath: str = None, folder: str = "VOC2007", im
     }
 
 
-def create_PASCAL_VOC(data: dict, format_: bool = False) -> ET.ElementTree:
+def create_PASCAL_VOC(data: dict, format_: bool = False, img_size: tuple = (512, 512, 3)) -> ET.ElementTree:
     # verify
     assert "filename" in data.keys(), f"Not found filename tag in {data}"
     assert "object" in data.keys(), f"Not found object tag in {data}"
@@ -70,9 +67,9 @@ def create_PASCAL_VOC(data: dict, format_: bool = False) -> ET.ElementTree:
     root.append(__create_element("segmented", data.get("segmented", 0)))
     # img size
     size = ET.Element("size")
-    size.append(__create_element("width", data["size"].get("width", 512) if "size" in data.keys() else 512))
-    size.append(__create_element("height", data["size"].get("height", 512) if "size" in data.keys() else 512))
-    size.append(__create_element("depth", data["size"].get("depth", 512) if "size" in data.keys() else 3))
+    size.append(__create_element("width", data["size"].get("width", img_size[0]) if "size" in data.keys() else img_size[0]))
+    size.append(__create_element("height", data["size"].get("height", img_size[1]) if "size" in data.keys() else img_size[1]))
+    size.append(__create_element("depth", data["size"].get("depth", img_size[2]) if "size" in data.keys() else img_size[2]))
     root.append(size)
     # object
     for object_ in data["object"]:
@@ -96,7 +93,7 @@ def create_PASCAL_VOC(data: dict, format_: bool = False) -> ET.ElementTree:
 if __name__ == '__main__':
     data_ = kitti_decode(
         filepath="../_output_2023-05-28-16-45/Camera/object_detection/2.txt",
-        imgpath="../_output_2023-05-28-16-45/Camera/rgb",
+        img_suffix=".png",
         img_size=(1024, 1024, 4),
         folder="Sky-Hackathon-8th"
     )
