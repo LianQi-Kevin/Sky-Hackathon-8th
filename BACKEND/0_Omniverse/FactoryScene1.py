@@ -1,18 +1,20 @@
 """
 对 example.py 做一些修改以实现更多的物体变动和镜头移动，用于Sky-Hackathon-8th
 """
-
-import omni.replicator.core as rep
-from omni.replicator.core.scripts.utils import ReplicatorItem
 import os
 import glob
 import random
 import time
 from typing import List, Tuple
 
+import omni.replicator.core as rep
+from omni.replicator.core.scripts.utils import ReplicatorItem
+from omni.replicator.core import WriterRegistry
+from tools.PascalWriter import PascalWriter
+
 
 ROOTPATH = "E:/Python/Sky-Hackathon-8th/BACKEND/0_Omniverse"
-NUM_FRAMES = 4000
+NUM_FRAMES = 50
 
 
 def get_num_box_node(item_num: int = 4,
@@ -284,13 +286,14 @@ with rep.new_layer():
                 position=rep.distribution.uniform((-600, 200, -500), (600, 500, 500)),
                 look_at=rep.distribution.uniform((-430, 78, -170), (355, 78, 264)))
 
-    # Initialize and attach writer for Kitti format data
-    writer = rep.WriterRegistry.get("KittiWriter")
+    # Initialize and attach writer for PASCAL VOC format data
+    WriterRegistry.register(PascalWriter)
+    writer = rep.WriterRegistry.get("PascalWriter")
     writer.initialize(
         output_dir=os.path.join(ROOTPATH, f"_output_{time.strftime('%Y-%m-%d-%H-%M', time.localtime(time.time()))}"),
-        bbox_height_threshold=10,
-        fully_visible_threshold=0.95,
-        omit_semantic_type=True
+        semantic_types=["class"],
+        bbox_height_threshold=25,
+        image_output_format="jpeg"
     )
     writer.attach([render_product])
 

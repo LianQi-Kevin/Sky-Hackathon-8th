@@ -2,18 +2,29 @@
 Custom Writer for PASCAL VOC
 
 Reference:
-* https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_replicator/custom_writer.html
-* https://arleyzhang.github.io/articles/1dc20586/
+    * https://docs.omniverse.nvidia.com/prod_extensions/prod_extensions/ext_replicator/custom_writer.html
+    * https://arleyzhang.github.io/articles/1dc20586/
+Examples:
+    >>> from tools.PascalWriter import PascalWriter
+    >>> from omni.replicator.core import WriterRegistry
+    >>> import omni.replicator.core as rep
+    >>> camera = rep.create.camera(position=(-600, 200, -500), look_at=(-430, 78, -170))
+    >>> render_product = rep.create.render_product(camera, resolution=(1024, 1024))
+    >>> WriterRegistry.register(PascalWriter)
+    >>> writer = rep.WriterRegistry.get("PascalWriter")
+    >>> writer.initialize(
+    ...     output_dir="_output",
+    >>> )
+    >>> writer.attach([render_product])
 """
-
-import numpy as np
-from omni.replicator.core import BackendDispatch, Writer, WriterRegistry
-from omni.syntheticdata.scripts.SyntheticData import SyntheticData
-
 import io
 import os
 from typing import List
 import xml.etree.ElementTree as ET
+
+import numpy as np
+from omni.replicator.core import BackendDispatch, Writer, WriterRegistry
+from omni.syntheticdata.scripts.SyntheticData import SyntheticData
 
 
 class PascalWriter(Writer):
@@ -22,7 +33,8 @@ class PascalWriter(Writer):
                  semantic_types: List[str] = None,
                  bbox_height_threshold: int = 25,
                  fully_visible_threshold: float = 0.95,
-                 partly_occluded_threshold: float = 0.15
+                 partly_occluded_threshold: float = 0.15,
+                 image_output_format: str = "jpeg"
                  ):
         """Create a PASCAL VOC Writer
         Args:
@@ -31,11 +43,16 @@ class PascalWriter(Writer):
             bbox_height_threshold: The minimum valid bounding box height, in pixels. Value must be positive integers.
             fully_visible_threshold: Minimum occlusion factor for bounding boxes to be considered fully visible.
             partly_occluded_threshold: Minimum occlusion factor for bounding boxes to be considered partly occluded.
+            image_output_format: The export image format, choices in ["jpeg", "png"]. Default: "jpeg"
         """
+        # verify
+        assert output_dir is not None
+        assert image_output_format in ["jpeg", "png"]
+        # var
         self._output_dir = output_dir
         self._backend = BackendDispatch({"paths": {"out_dir": output_dir}})
         self._frame_id = 0
-        self._image_output_format = "jpg"
+        self._image_output_format = image_output_format
         self._bbox_height_threshold = bbox_height_threshold
         self._semantic_types = ["class"] if semantic_types is None else semantic_types
         self._partly_occluded_threshold = partly_occluded_threshold
@@ -54,7 +71,7 @@ class PascalWriter(Writer):
         SyntheticData.Get().set_instance_mapping_semantic_filter(semantic_filter_predicate)
 
     @staticmethod
-    def _create_element(name: str, item=None) -> ET.Element:
+    def _create_element(name: str, item="") -> ET.Element:
         element = ET.Element(name)
         element.text = str(item)
         return element
@@ -81,7 +98,6 @@ class PascalWriter(Writer):
         # verify
         assert "filename" in data.keys(), f"Not found filename tag in {data}"
         assert "object" in data.keys(), f"Not found object tag in {data}"
-        assert len(data["object"]) != 0, f"Object is empty in {data}"
         # base tag
         root = ET.Element("annotation")
         root.append(self._create_element("folder", data.get("folder", "VOC2007")))
@@ -91,21 +107,24 @@ class PascalWriter(Writer):
         size = ET.Element("size")
         size.append(self._create_element("width", data["size"].get("width", img_size[0]) if "size" in data.keys() else img_size[0]))
         size.append(self._create_element("height", data["size"].get("height", img_size[1]) if "size" in data.keys() else img_size[1]))
-        size.append(self._create_element("depth", data["size"].get("depth", img_size[3]) if "size" in data.keys() else img_size[2]))
+        size.append(self._create_element("depth", data["size"].get("depth", img_size[2]) if "size" in data.keys() else img_size[2]))
         root.append(size)
         # object
-        for object_ in data["object"]:
-            label = ET.Element("object")
-            label.append(self._create_element("name", object_.get("name")))
-            label.append(self._create_element("truncated", object_.get("truncated")))
-            label.append(self._create_element("difficult", object_.get("difficult")))
-            bndbox = ET.Element("bndbox")
-            bndbox.append(self._create_element("xmin", object_["bndbox"].get("xmin")))
-            bndbox.append(self._create_element("ymin", object_["bndbox"].get("ymin")))
-            bndbox.append(self._create_element("xmax", object_["bndbox"].get("xmax")))
-            bndbox.append(self._create_element("ymax", object_["bndbox"].get("ymax")))
-            label.append(bndbox)
-            root.append(label)
+        if len(data["object"]) != 0:
+            for object_ in data["object"]:
+                label = ET.Element("object")
+                label.append(self._create_element("name", object_.get("name")))
+                label.append(self._create_element("truncated", object_.get("truncated")))
+                label.append(self._create_element("difficult", object_.get("difficult")))
+                bndbox = ET.Element("bndbox")
+                bndbox.append(self._create_element("xmin", object_["bndbox"].get("xmin")))
+                bndbox.append(self._create_element("ymin", object_["bndbox"].get("ymin")))
+                bndbox.append(self._create_element("xmax", object_["bndbox"].get("xmax")))
+                bndbox.append(self._create_element("ymax", object_["bndbox"].get("ymax")))
+                label.append(bndbox)
+                root.append(label)
+        else:
+            root.append(self._create_element("object"))
         # write
         if format_:
             self._indent(root)
@@ -135,13 +154,13 @@ class PascalWriter(Writer):
         selected_bbox_loose = bbox_loose[bbox_loose_indices]
 
         labels_dict = {
-            "folder": self._output_dir,
+            "folder": os.path.split(self._output_dir)[-1],
             "filename": f"{self._frame_id}.{self._image_output_format}",
             "segmented": 0,
             "size": {
                 "width": rp_width,
                 "height": rp_height,
-                "depth": 3
+                "depth": 3 if self._image_output_format == "jpeg" else 4
             },
             "object": []
         }
@@ -149,6 +168,8 @@ class PascalWriter(Writer):
         for box_tight, box_loose in zip(bbox_tight, selected_bbox_loose):
             label = {
                 "name": None,
+                "truncated": 0,
+                "difficult": 0,
                 "bndbox": {}
             }
 
@@ -205,8 +226,14 @@ class PascalWriter(Writer):
             )
         else:
             for render_product in render_products:
-                pass
+                render_product_name = render_product[3:]
+                sub_dir = os.path.join(render_product_name, data[render_product]["camera"].split("/")[-1])
+                self._write_rgb(data, sub_dir, f"rgb-{render_product_name}")
+                self._write_object_detection(
+                    data=data,
+                    sub_dir=sub_dir,
+                    render_product_annotator=render_product,
+                    bbox_2d_tight_annotator=f"bounding_box_2d_tight_fast-{render_product_name}",
+                    bbox_2d_loose_annotator=f"bounding_box_2d_loose_fast-{render_product_name}",
+                )
         self._frame_id += 1
-
-
-WriterRegistry.register(PascalWriter)
