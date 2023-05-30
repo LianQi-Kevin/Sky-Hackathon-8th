@@ -37,13 +37,37 @@ cp models/hub/yolov5n6.yaml workspace/models/yolov5n6.yaml
 nc: 1
 ```
 
-## 3. Download Dataset and Train the model
+## 3. Download Dataset
 
 ```shell
 mkdir -p workspace/dataset
-wget -O workdpace/dataset/data.zip <Roboflow download Raw URL>
+wget -O workspace/dataset/data.zip <Roboflow download Raw URL>
+unzip -d workspace/dataset workspace/dataset/data.zip && rm workspace/dataset/data.zip
 ```
 
 * `<Roboflow download Raw URL>`: roboflow数据集下载地址
 * 请访问 [box-detect-omniverse](https://universe.roboflow.com/hackathon-8th/box-detect-omniverse), 并点击`Download this Dataset`获取下载链接
 
+下载后修改`workspace/dataset/data.yaml`前三行的路径
+
+```yaml
+#train: ../train/images
+#val: ../valid/images
+#test: ../test/images
+train: workspace/dataset/train/images
+val: workspace/dataset/valid/images
+test: workspace/dataset/test/images
+```
+
+
+## 4. Train Yolov5
+
+```shell
+python train.py --data workspace/dataset/data.yaml --weights workspace/weights/yolov5n6.pt --cfg workspace/models/yolov5n6.yaml --batch-size 128 --epochs 500 
+```
+
+## 5. Tensorboard show
+
+```shell
+tensorboard --logdir runs/train --port 6006 --bind_all
+```
