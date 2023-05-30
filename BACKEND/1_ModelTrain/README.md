@@ -41,5 +41,9 @@ nc: 1
 
 ```shell
 mkdir -p workspace/dataset
-wget -P workdpace/dataset ""
+wget -P workdpace/dataset/data.zip <Roboflow download Raw URL>
 ```
+
+* `<Roboflow download Raw URL>`: roboflow数据集下载地址
+* 请访问 [box-detect-omniverse](https://universe.roboflow.com/hackathon-8th/box-detect-omniverse), 并点击`Download this Dataset`获取下载链接
+
