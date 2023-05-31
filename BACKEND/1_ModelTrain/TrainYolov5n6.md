@@ -1,6 +1,6 @@
 # Yolov5n6 Train notes
 
-## 1. install required
+## 1. install requirements
 ```shell
 conda install pytorch==1.9.0 torchvision==0.10.0 cudatoolkit=11.3 -c pytorch -c conda-forge
 pip install -r requirements.txt
@@ -61,7 +61,7 @@ test: workspace/dataset/test/images
 ## 4. Train Yolov5
 
 ```shell
-python train.py --data workspace/dataset/data.yaml --weights workspace/weights/yolov5n6.pt --cfg workspace/models/yolov5n6.yaml --batch-size 128 --epochs 500 
+python train.py --data workspace/dataset/data.yaml --weights workspace/weights/yolov5n6.pt --cfg workspace/models/yolov5n6.yaml --batch-size 128 --epochs 500 --imgsz 416 --name yolov5n6_416
 ```
 
 ## 5. Tensorboard show
