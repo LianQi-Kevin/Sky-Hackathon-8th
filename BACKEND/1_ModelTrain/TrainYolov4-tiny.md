@@ -40,7 +40,7 @@ mkdir -p workspace/cfg
 wget -P workspace/weights https://github.com/cap-lab/jedi/releases/download/jedi_legacy/yolo4tiny_relu.zip
 unzip -d workspace/weights/ workspace/weights/yolo4tiny_relu.zip && rm workspace/weights/yolo4_relu.zip
 #wget -P workspace/cfg https://github.com/cap-lab/jedi/releases/download/jedi_legacy/yolo4tiny_relu.cfg
-wget -P workspace/cfg 
+wget -P workspace/cfg https://github.com/LianQi-Kevin/Sky-Hackathon-8th/blob/1-ModelTrain/BACKEND/1_ModelTrain/cfg/yolo4tiny_relu.cfg
 ```
 
 ## 4. Download Dataset
