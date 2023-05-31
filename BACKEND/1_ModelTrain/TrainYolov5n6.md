@@ -43,8 +43,8 @@ wget -O workspace/dataset/data.zip <Roboflow download Raw URL>
 unzip -d workspace/dataset workspace/dataset/data.zip && rm workspace/dataset/data.zip
 ```
 
-* `<Roboflow download Raw URL>`: roboflow数据集下载地址
-* 请访问 [box-detect-omniverse](https://universe.roboflow.com/hackathon-8th/box-detect-omniverse), 并点击`Download this Dataset`获取下载链接
+* `<Roboflow download Raw URL>`: 请自行替换为roboflow数据集下载地址, 下载格式请选择 `YOLOv5`
+* 请访问 <a href="https://universe.roboflow.com/hackathon-8th/box-detect-omniverse"><img src="https://app.roboflow.com/images/download-dataset-badge.svg"></img></a> , 并点击`Download this Dataset`获取下载链接
 
 下载后修改`workspace/dataset/data.yaml`前三行的路径
 
