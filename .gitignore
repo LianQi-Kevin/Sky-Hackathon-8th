@@ -8,3 +8,7 @@ _output*
 *.usda
 *.usdc
 Dataset
+*.pt
+*.trt
+yolov5
+*.onnx
