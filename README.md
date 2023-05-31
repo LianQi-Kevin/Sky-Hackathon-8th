@@ -6,6 +6,10 @@
 
 > 补充说明: Omniverse 在部分校园网中存在无法连接的情况，例如北建大的校园网，需切换至流量才可正常使用
 
+
+<a href="https://universe.roboflow.com/hackathon-8th/box-detect-omniverse"><img src="https://app.roboflow.com/images/download-dataset-badge.svg"></img></a>
+
+
 ---
 ### 相关链接
 
