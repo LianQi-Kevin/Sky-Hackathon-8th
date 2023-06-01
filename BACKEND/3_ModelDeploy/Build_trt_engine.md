@@ -2,9 +2,11 @@
 
 ## 1. Build trtexec 
 
+* Our Deploy platform is Jetson Xavier NX. So the tensorRT is already installed
+* Just need link to the `/usr/bin` path
+
 ```shell
-cd <TensorRT root directory>/samples/trtexec
-make
+sudo ln -s /usr/src/tensorrt/bin/trtexec /usr/bin/trtexec
 ```
 
 ## 2. ONNX to TensorRT engine
