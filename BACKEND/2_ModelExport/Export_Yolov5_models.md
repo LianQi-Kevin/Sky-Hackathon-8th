@@ -78,7 +78,8 @@ cp {Sky-Hackathon-8th}/2_ModelExport/replacement/yolo.py {yolov5}/models/yolo.py
 ## 3. Export onnx models
 
 ```shell
-python export.py --imgsz=640 --weights=yolov5n.pt --include=onnx --dynamic
+#python export.py --imgsz=640 --weights=yolov5n.pt --include=onnx --dynamic
+python export.py --imgsz=416 --weights=yolov5n.pt --include=onnx --batch-size 8
 ```
 
 ---

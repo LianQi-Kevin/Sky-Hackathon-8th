@@ -1,3 +1,10 @@
+"""
+尝试使用 tensorrt.Builder 构建 tensorRT engine, 暂时弃用
+
+Reference:
+    * https://docs.nvidia.com/deeplearning/tensorrt/api/python_api/infer/Core/Builder.html
+"""
+
 import tensorrt as trt
 import os
 
@@ -5,7 +12,6 @@ import os
 def onnx2trt(onnx_path: str, output_path: str = None, ):
     # output path
     output_path = f"{os.path.splitext(onnx_path)[0]}.trt" if output_path is None else output_path
-
     logger = trt.Logger(trt.Logger.WARNING)
     builder = trt.Builder(logger)
     network = builder.create_network(1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH))
@@ -24,5 +30,5 @@ def onnx2trt(onnx_path: str, output_path: str = None, ):
 
 if __name__ == '__main__':
     onnx2trt(
-        onnx_path="",
+        onnx_path="../models/yolov5n_best_640.onnx",
     )
