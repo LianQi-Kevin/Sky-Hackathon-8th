@@ -12,3 +12,8 @@ Dataset
 *.trt
 yolov5
 *.onnx
+infer
+models
+*.jpg
+*.jpeg
+detection-results

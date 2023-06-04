@@ -1,0 +1,3 @@
+[submodule "BACKEND/3_ModelDeploy/mAP"]
+	path = BACKEND/3_ModelDeploy/mAP
+	url = https://github.com/LianQi-Kevin/mAP.git

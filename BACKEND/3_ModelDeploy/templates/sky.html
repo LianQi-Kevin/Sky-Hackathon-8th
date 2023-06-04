@@ -1,0 +1,383 @@
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<head>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+
+        .image img {
+            max-height: 200px;
+        }
+        div.picture-frame{
+            max-height: 300px;
+        }
+
+        body {
+            animation: gradient 10s ease infinite;
+            background: linear-gradient(270deg, #12c2e9, #c471ed, #f64f59);
+            background-size: 600% 600%;
+            display: flex;
+            flex-direction: column;
+            place-items: center;
+            min-width: 320px;
+            min-height: 100vh;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0 50%;
+            }
+        }
+
+        button {
+            background-color: #4FC3F7; /* Light Blue */
+            border: none;
+            border-radius: 12px; /* Rounded corners */
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #039BE5; /* Darker blue on hover */
+            color: white;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload label {
+            background-color: #4FC3F7;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .file-upload label:hover {
+            background-color: #039BE5;
+            color: white;
+        }
+
+        fieldset.cv {
+            border: 4px solid white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .picture-frame {
+            position: absolute;
+            width: 400px; /* 增大图片比例 */
+            height: 225px; /* 增大图片比例 */
+            border: 4px solid black; /* 增加边框宽度 */
+            border-radius: 12px;
+            background-size: cover;
+            transform: rotate(20deg);
+        }
+
+        .picture-frame.top-left {
+            top: 0;
+            left: 0;
+            transform: rotate(-15deg);
+        }
+
+        .picture-frame.top-right {
+            top: 0;
+            right: 0;
+            transform: rotate(15deg);
+        }
+
+        .picture-frame.mid-left {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) rotate(-10deg);
+        }
+
+        .picture-frame.mid-right {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%) rotate(10deg);
+        }
+
+        .picture-frame.bottom-left {
+            bottom: 0;
+            left: 0;
+            transform: rotate(-5deg);
+        }
+
+        .picture-frame.bottom-right {
+            bottom: 0;
+            right: 0;
+            transform: rotate(5deg);
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .content {
+            padding: 10px;
+            display: flex;
+            place-items: center;
+            flex-direction: column;
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .field {
+            margin: 10px 0;
+        }
+
+        .action {
+            margin-top: 10px;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            background: #E8F9D9;
+            text-align: center;
+            width: 100%;
+        }
+
+        .pad {
+            padding: 5px;
+        }
+
+        .inline {
+            display: inline-block;
+        }
+
+        .field .item {
+            margin: 5px 0;
+        }
+
+        .image {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+
+<body id="app">
+
+<div class="loading" v-if="loading!=''">
+    <div class="pad">%%loading%%</div>
+</div>
+
+<div class="content">
+    <h2>8th Sky Hackathon</h2>
+
+    <div class="loaded">
+
+        <!-- CV -->
+        <fieldset class="cv">
+            <legend>CV</legend>
+
+            <div class="field">
+                <div class="item action">
+                    <button @click="getFps()" class="inline">获取 FPS</button>
+                </div>
+                <div class="item result">FPS: %%cvFps%%</div>
+            </div>
+
+            <div class="field">
+                <div class="item">
+                    <button @click="getMap()" class="inline">获取 mAP</button>
+                </div>
+                <div class="item result">mAP: %%cvMap%%</div>
+            </div>
+
+            <div class="field file file-upload">
+                <label for="file">选择文件</label>
+                <input id="file" type="file" name="file" ref="file" @change="handleFileUpload($event)"/>
+                <button @click="submitFile('cv')">上传图片</button>
+            </div>
+
+            <div class="field">
+                <div class="image original" v-if="imageOriginal!=''">
+                    <div class="label">原图</div>
+                    <image :src="imageOriginal"/>
+                </div>
+                <div class="image result cv" v-if="imageResult!=''">
+                    <div class="label">结果图</div>
+                    <image :src="imageResult"/>
+                </div>
+            </div>
+            <div class="action" v-if="imageOriginal!=''">
+                <button @click="identifyImage()">识别图片</button>
+                <br>
+            </div>
+
+        </fieldset>
+        <!-- /CV -->
+    </div>
+</div>
+<div class="picture-frame top-left"
+     style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/d0c16bbc-d6d6-400a-af1b-5099592876b3.jpg');"></div>
+<div class="picture-frame top-right"
+     style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/d73f74dd-9254-48a6-b5b6-1e22df85066f.png');"></div>
+<div class="picture-frame mid-left"
+     style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/fa84571a-e37c-4f64-9110-41ac0f3348e9.png');"></div>
+<div class="picture-frame mid-right"
+     style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/cc679527-5717-49dd-b424-62efd709ea4d.png');"></div>
+<div class="picture-frame bottom-left" style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/e370ff2e-64c4-402d-ad13-5298f091440c.jpg');"></div>
+<div class="picture-frame bottom-right" style="background-image: url('https://mp-b7587120-7ad8-40cd-b3a0-33f634bcf824.cdn.bspapp.com/cloudstorage/9301ce4b-cfbe-4036-9253-46da7d8edcb9.jpg');"></div>
+</body>
+<script>
+    const {
+        createApp
+    } = Vue
+    createApp({
+        data() {
+            return {
+                file: '',
+                defaultText: '请检测瓶子',
+                modelLoaded: false,
+                imageOriginal: '',
+                imageResult: '',
+                audioOriginal: '',
+                error: '',
+                asrResult: {},
+                cvMap: '',
+                cvFps: '',
+                loading: '',
+                asrStatus: 'pending',
+                cvStatus: 'pending'
+            }
+        },
+        // Avoid conflict with Flask delimiters
+        compilerOptions: {
+            delimiters: ["%%", "%%"]
+        },
+        methods: {
+            async loadModel() {
+                if (this.loading != '') return showError('在运行中，无法执行')
+                this.loading = '加载模型中，请耐心等待...'
+                this.modelLoaded = false
+                try {
+                    var {
+                        data,
+                        status
+                    } = await axios.get('/asr/load')
+                    if (status == 200) {
+                        this.modelLoaded = true
+                    }
+                } catch (err) {
+                    showError(err.response.data)
+                }
+                this.loading = ''
+            },
+            async submitFile(fileType) {
+                let formData = new FormData()
+                formData.append('file', this.file)
+                statusType = fileType + 'Status'
+                this.loading = '上传中...'
+                try {
+                    var {
+                        data,
+                        status
+                    } = await axios.post('/' + fileType + '/upload', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    if (status == 200) {
+                        this[statusType] = 'uploaded'
+                        if (fileType == 'cv') {
+                            this.imageOriginal = data
+                        } else {
+                            this.audioOriginal = data
+                        }
+                    }
+                } catch (err) {
+                    showError(err.response.data)
+                }
+                this.loading = ''
+            },
+            handleFileUpload(event) {
+                this.file = event.target.files[0];
+            },
+            async identifyImage(event) {
+                if (this.loading != '') return showError('在运行中，无法执行')
+                this.loading = '识别中...'
+                this.cvStatus = 'pending'
+                try {
+                    var {
+                        data
+                    } = await axios.get('/api/detect/image')
+                    this.imageResult = data['detection_result_image_path']
+                } catch (err) {
+                    showError(err.response.data)
+                }
+                this.loading = ''
+            },
+            async getFps(event) {
+                if (this.loading != '') return showError('在运行中，无法执行')
+                this.loading = '获取 FPS...'
+                try {
+                    var {
+                        data
+                    } = await axios.get('/api/detect/fps')
+                    this.cvFps = data['detection_FPS']
+                } catch (err) {
+                    showError(err.response.data)
+                }
+                this.loading = ''
+            },
+            async getMap(event) {
+                // 接口路径: /api/detect/map
+                // 方式: GET
+                if (this.loading != '') return showError('在运行中，无法执行')
+                this.loading = '获取 mAP...'
+                try {
+                    var {
+                        data
+                    } = await axios.get('/api/detect/map')
+                    this.cvMap = data['detection_mAP']
+                } catch (err) {
+                    showError(err.response.data)
+                }
+                this.loading = ''
+            }
+        }
+    }).mount('#app')
+
+    function showError(msg) {
+        alert(msg || '错误')
+    }
+</script>
+
+</html>
