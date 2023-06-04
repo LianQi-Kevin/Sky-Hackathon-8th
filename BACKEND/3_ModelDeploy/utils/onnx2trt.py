@@ -7,7 +7,6 @@ Reference:
 
 import tensorrt as trt
 import os
-import cv2
 
 
 def onnx2trt(onnx_path: str, output_path: str = None, ):

@@ -1,4 +1,4 @@
-# ONNX TO TRT
+# ONNX TO TRT (切换到 tensorrtx/yolov5 方案，trtexec 搁置)
 
 ## 1. Build trtexec 
 

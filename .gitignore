@@ -16,4 +16,4 @@ infer
 models
 *.jpg
 *.jpeg
-mAP
+detection-results
