@@ -1,0 +1,188 @@
+<html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<head>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <style>
+  .image img{
+    max-height: 600px;
+  }
+  </style>
+</head>
+
+<body id="app">
+
+  <div class="loading" v-if="loading!=''">
+    <div class="pad">%%loading%%</div>
+  </div>
+
+  <div class="content">
+    <h2>8th Sky Hackathon</h2>
+
+    <div class="loaded">
+
+      <!-- CV -->
+      <fieldset class="cv">
+        <legend>CV</legend>
+
+        <div class="field">
+          <div class="item action"><button @click="getFps()" class="inline">获取 FPS</button></div>
+          <div class="item result">FPS: %%cvFps%%</div>
+        </div>
+
+        <div class="field">
+          <div class="item"><button @click="getMap()" class="inline">获取 mAP</button></div>
+          <div class="item result">mAP: %%cvMap%%</div>
+        </div>
+
+        <div class="field file">
+          <input type="file" name="file" ref="file" @change="handleFileUpload($event)" />
+          <button @click="submitFile('cv')">上传图片</button>
+        </div>
+
+        <div class="field">
+          <div class="image original" v-if="imageOriginal!=''">
+            <div class="label">原图</div>
+            <image :src="imageOriginal" />
+          </div>
+          <div class="image result cv" v-if="imageResult!=''">
+            <div class="label">结果图</div>
+            <image :src="imageResult" />
+          </div>
+        </div>
+        <div class="action" v-if="imageOriginal!=''">
+          <button @click="identifyImage()">识别图片</button><br>
+        </div>
+
+      </fieldset>
+      <!-- /CV -->
+    </div>
+  </div>
+</body>
+<script>
+  const {
+    createApp
+  } = Vue
+  createApp({
+    data() {
+      return {
+        file: '',
+        defaultText: '请检测瓶子',
+        modelLoaded: false,
+        imageOriginal: '',
+        imageResult: '',
+        audioOriginal: '',
+        error: '',
+        asrResult: {},
+        cvMap: '',
+        cvFps: '',
+        loading: '',
+        asrStatus: 'pending',
+        cvStatus: 'pending'
+      }
+    },
+    // Avoid conflict with Flask delimiters
+    compilerOptions: {
+      delimiters: ["%%", "%%"]
+    },
+    methods: {
+      async loadModel() {
+        if (this.loading != '') return showError('在运行中，无法执行')
+        this.loading = '加载模型中，请耐心等待...'
+        this.modelLoaded = false
+        try {
+          var {
+            data,
+            status
+          } = await axios.get('/asr/load')
+          if (status == 200) {
+            this.modelLoaded = true
+          }
+        } catch (err) {
+          showError(err.response.data)
+        }
+        this.loading = ''
+      },
+      async submitFile(fileType) {
+        let formData = new FormData()
+        formData.append('file', this.file)
+        statusType = fileType + 'Status'
+        this.loading = '上传中...'
+        try {
+          var {
+            data,
+            status
+          } = await axios.post('/' + fileType + '/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          if (status == 200) {
+            this[statusType] = 'uploaded'
+            if (fileType == 'cv') {
+              this.imageOriginal = data
+            } else {
+              this.audioOriginal = data
+            }
+          }
+        } catch (err) {
+          showError(err.response.data)
+        }
+        this.loading = ''
+      },
+      handleFileUpload(event) {
+        this.file = event.target.files[0];
+      },
+      async identifyImage(event) {
+        if (this.loading != '') return showError('在运行中，无法执行')
+        this.loading = '识别中...'
+        this.cvStatus = 'pending'
+        try {
+          var {
+            data
+          } = await axios.get('/api/detect/image')
+          this.imageResult = data['detection_result_image_path']
+        } catch (err) {
+          showError(err.response.data)
+        }
+        this.loading = ''
+      },
+      async getFps(event) {
+        if (this.loading != '') return showError('在运行中，无法执行')
+        this.loading = '获取 FPS...'
+        try {
+          var {
+            data
+          } = await axios.get('/api/detect/fps')
+          this.cvFps = data['detection_FPS']
+        } catch (err) {
+          showError(err.response.data)
+        }
+        this.loading = ''
+      },
+      async getMap(event) {
+        // 接口路径: /api/detect/map
+        // 方式: GET
+        if (this.loading != '') return showError('在运行中，无法执行')
+        this.loading = '获取 mAP...'
+        try {
+          var {
+            data
+          } = await axios.get('/api/detect/map')
+          this.cvMap = data['detection_mAP']
+        } catch (err) {
+          showError(err.response.data)
+        }
+        this.loading = ''
+      }
+    }
+  }).mount('#app')
+
+  function showError(msg) {
+    alert(msg || '错误')
+  }
+</script>
+
+</html>

@@ -15,7 +15,7 @@ import pycuda.autoinit
 import pycuda.driver as cuda
 import tensorrt as trt
 
-CONF_THRESH = 0.5
+CONF_THRESH = 0.35
 IOU_THRESHOLD = 0.4
 
 
@@ -184,7 +184,7 @@ class YoLov5TRT(Thread):
                         self.categories[int(result_classid[j])], result_scores[j]
                     ),
                 )
-            bndboxes.append([result_boxes.tolist(), result_scores.tolist(), result_classid.tolist()])
+            bndboxes.append((result_boxes.tolist(), result_scores.tolist(), result_classid.tolist()))
         end = time.time()
         return batch_image_raw, end - start, bndboxes
 
