@@ -14,3 +14,6 @@ yolov5
 *.onnx
 infer
 models
+*.jpg
+*.jpeg
+mAP

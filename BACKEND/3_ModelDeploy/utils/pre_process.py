@@ -50,7 +50,7 @@ def pre_process_batch_yolov5(image_list: list, max_batch: int = 1,
         exp_size: exp size, model shape
         swap: Img channel swap, default to CHW
     Return:
-        [[pre-processed images], [raw images]]
+        [[pre-processed images], [raw images], list_area]
     """
     exp_height = exp_size[0] if isinstance(exp_size, tuple) else exp_size
     exp_width = exp_size[1] if isinstance(exp_size, tuple) else exp_size
@@ -59,14 +59,15 @@ def pre_process_batch_yolov5(image_list: list, max_batch: int = 1,
         output = [np.expand_dims(
             np.transpose(np.full((exp_height, exp_width, 3), fill_value=128, dtype=np.uint8) * 114, swap), axis=0) for _
             in range(max_batch)]
-        raw_batch = image_list[num * max_batch: (num * max_batch) + max_batch]
+        area = (num * max_batch, (num * max_batch) + max_batch)
+        raw_batch = image_list[area[0]: area[1]]
         for index, image_raw in enumerate(raw_batch):
             padded_image = padding_img(image_raw, exp_size=exp_size, swap=swap, normalization=True)
             # CHW to NCHW format
             output[index] = np.expand_dims(padded_image, axis=0)
         logging.debug(f"pre-process batch: {time.time() - ST_time}s")
         # to C order and return
-        yield np.ascontiguousarray(np.array(output), dtype=np.float32), raw_batch
+        yield np.ascontiguousarray(np.array(output), dtype=np.float32), raw_batch, area
 
 
 def pre_process_batch_yolox(image_list, max_batch=1, img_size=(640, 640), swap=(2, 0, 1), un_read=False):
